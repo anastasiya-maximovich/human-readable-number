@@ -1,42 +1,63 @@
-module.exports = function toReadable (number) {
-  const num = [
-    ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'],
-    [null, null, 'twen', 'thir', 'for', 'fif', 'six', 'seven', 'eigh', 'nine']
-]
+module.exports = function toReadable(num) {
+    const a = [
+        "",
+        "one ",
+        "two ",
+        "three ",
+        "four ",
+        "five ",
+        "six ",
+        "seven ",
+        "eight ",
+        "nine ",
+        "ten ",
+        "eleven ",
+        "twelve ",
+        "thirteen ",
+        "fourteen ",
+        "fifteen ",
+        "sixteen ",
+        "seventeen ",
+        "eighteen ",
+        "nineteen "
+    ];
+    const b = [
+        "",
+        "",
+        "twenty",
+        "thirty",
+        "forty",
+        "fifty",
+        "sixty",
+        "seventy",
+        "eighty",
+        "ninety"
+    ];
 
-module.exports = function toReadable(number) {
-    let i = 0;
-    let string = '';
-    if (number > 99) {
-        string += `${num[0][number.toString()[i]]} hundred`;
-        i++;
-    }
+    if (num === 0) return "zero";
+    n = ("000000000" + num)
+        .substr(-9)
+        .match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+    if (!n) return;
+    let str = "";
+    str +=
+        n[1] != 0
+            ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + "crore "
+            : "";
+    str +=
+        n[2] != 0
+            ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + "lakh "
+            : "";
+    str +=
+        n[3] != 0
+            ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + "thousand "
+            : "";
+    str +=
+        n[4] != 0
+            ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + "hundred "
+            : "";
+    str += n[5] != 0 ? a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]] : "";
 
-    if (number === 0) return 'zero';
-
-    if (number % 100 === 14) {
-        string += ' fourteen';
-    } else {
-        if (number % 100 < 20 && number % 100 > 12) {
-            string += ` ${num[1][number.toString()[i + 1]]}teen`
-        } else {
-            if (number % 100 >= 10 && number % 100 <= 12) {
-                string += ` ${num[0][number.toString().substr(i, 2)]}`
-            } else {
-                if (number.toString().length > 1) {
-                    if (number % 100 >= 20){
-                        string += ` ${num[1][number.toString()[i]]}ty`;
-                    }
-                i++;
-                }
-                if (number % 10 !== 0)
-                    string += ` ${num[0][number.toString()[i]]}`;
-            }
-        }
-    }
-
-
-    return string.trim()
-}
-}
+    return str.trim();
+};
 
